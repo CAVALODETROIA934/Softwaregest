@@ -1,0 +1,389 @@
+const workers = [
+    { nome: "João Silva", cargo: "Eletricista", status: "Disponível", tel: "244923000000" },
+    { nome: "Maria Santos", cargo: "Limpeza", status: "Ocupado", tel: "244912000000" },
+    { nome: "Pedro Dala", cargo: "Pedreiro", status: "Disponível", tel: "244931000000" }
+];
+
+const container = document.getElementById('worker-container');
+
+function displayWorkers(filter = "") {
+    container.innerHTML = "";
+    workers
+        .filter(w => w.cargo.toLowerCase().includes(filter.toLowerCase()))
+        .forEach(w => {
+            const isAvailable = w.status === "Disponível";
+            const card = document.createElement('div');
+            card.className = `card ${isAvailable ? 'available' : 'busy'}`;
+            
+            card.innerHTML = `
+                <h3>${w.nome}</h3>
+                <p><strong>${w.cargo}</strong></p>
+                <p>Estado: ${w.status}</p>
+                ${isAvailable ? `<a href="https://wa.me/${w.tel}" class="btn-contact">Contactar via WhatsApp</a>` : '<p>Indisponível no momento</p>'}
+            `;
+            container.appendChild(card);
+        });
+}
+
+document.getElementById('search').addEventListener('input', (e) => displayWorkers(e.target.value));
+
+displayWorkers(); // Inicia a lista
+/* Configurações Gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #e0f2f1; /* Azul muito claro */
+    color: #333;
+}
+
+/* Cabeçalho */
+header {
+    background-color: #006064; /* Azul Petróleo Escuro */
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Barra de Pesquisa */
+#search {
+    width: 90%;
+    max-width: 600px;
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: 2px solid #26a69a; /* Verde */
+    outline: none;
+    font-size: 16px;
+}
+
+/* Contentor de Cartões */
+#worker-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Cartão do Trabalhador */
+.card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Barra de Status no Topo do Cartão */
+.status-bar {
+    padding: 8px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.card.available .status-bar {
+    background-color: #2ecc71; /* Verde Disponível */
+    color: white;
+}
+
+.card.busy .status-bar {
+    background-color: #3498db; /* Azul Ocupado */
+    color: white;
+}
+
+/* Conteúdo do Cartão */
+.card-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.card-content h3 {
+    color: #006064;
+    margin-bottom: 5px;
+}
+
+.card-content p {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+/* Botão de Contacto */
+.btn-contact {
+    display: block;
+    background-color: #26a69a; /* Verde Botão */
+    color: white;
+    text-decoration: none;
+    padding: 12px;
+    margin: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.btn-contact:hover {
+    background-color: #00796b;
+}
+
+.busy-msg {
+    color: #7f8c8d;
+    font-style: italic;
+    margin: 15px;
+}
+<style>
+    .apresentacao {
+        padding: 20px;
+        background-color: #fff;
+        font-family: sans-serif;
+    }
+
+    .titulo-principal {
+        color: #34495e;
+        font-size: 1.4rem; /* Tamanho médio para o título */
+        margin-bottom: 10px;
+    }
+
+    .subtitulo {
+        font-size: 1rem; /* Letras menores */
+        color: #555;
+        line-height: 1.5;
+    }
+
+    .lista-funcionalidades {
+        margin: 15px 0;
+        padding-left: 20px;
+        color: #2ecc71; /* Cor verde para destacar os pontos */
+    }
+
+    .lista-funcionalidades li {
+        margin-bottom: 8px;
+        font-size: 0.95rem; /* Letra menor para a lista */
+        color: #333;
+    }
+
+    .ideal-para, .chamada-final {
+        font-size: 0.95rem;
+        color: #444;
+        margin-top: 15px;
+    }
+    /* Estilos para a Seção de Funcionários */
+    .employee-section {
+        padding: 20px;
+        background-color: #f1f8f6; /* Fundo leve do site original */
+    }
+
+    .employee-grid {
+        display: grid;
+        grid-template-columns: 1fr; /* Uma coluna no mobile */
+        gap: 15px; /* Espaço entre os cards */
+    }
+
+    /* Card principal (caixa externa) */
+    .employee-card {
+        background-color: #fff;
+        border: 2px solid #2ecc71; /* Cor verde para a borda */
+        border-radius: 8px; /* Cantos arredondados */
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    /* Parte de cima do card (ícone + nome) */
+    .employee-info {
+        display: flex;
+        align-items: center; /* Alinha o ícone e o nome verticalmente */
+        gap: 10px;
+    }
+
+    /* Ícone 'DV' de lado */
+    .SG-icon {
+        background-color: #34495e; /* Cinza escuro */
+        color: white;
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+
+    .name-container {
+        flex: 1; /* Ocupa o resto do espaço */
+    }
+
+    /* Nome grande e minúsculo */
+    .employee-name {
+        font-size: 1.8rem; /* Tamanho grande */
+        text-transform: lowercase; /* Força letras minúsculas */
+        color: #333;
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    /* Área das sub-caixas de contato */
+    .contact-details {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    /* Sub-caixas internas (Telefone e WhatsApp) */
+    .contact-box {
+        border: 1px solid #ccc; /* Borda cinza clara */
+        padding: 8px;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        color: #555;
+        background-color: #fafafa;
+    }
+
+    /* Ajuste para telas maiores, se necessário (ex: 2 colunas) */
+    @media (min-width: 768px) {
+        .employee-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    /* Estilização para imitar o degradê e o visual das imagens */
+    .footer-container {
+        /* Degradê inspirado na imagem: Verde para Azul */
+        background: linear-gradient(135deg, #2ecc71 0%, #2980b9 100%);
+        color: white;
+        padding: 40px 20px;
+        font-family: sans-serif;
+        margin-top: 50px;
+    }
+
+    .footer-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .footer-column {
+        flex: 1;
+        min-width: 200px;
+        margin-bottom: 20px;
+    }
+
+    .footer-column h3 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+
+    .footer-column ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-column ul li {
+        margin-bottom: 10px;
+    }
+
+    .footer-column ul li a {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        font-size: 0.95rem;
+    }
+
+    .footer-column ul li a:hover {
+        text-decoration: underline;
+    }
+    /* Estilização Geral para emular o visual da foto */
+    body {
+        margin: 0;
+        background-color: #f8f9fa; /* Fundo cinza bem claro, como o papel */
+        font-family: 'Open Sans', sans-serif; /* Fonte mais profissional */
+    }
+
+    .site-header {
+        background-color: white; /* O fundo do logo é branco na foto */
+        padding: 40px 20px;
+        text-align: center;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .logo-area {
+        display: inline-block;
+    }
+
+    /* Ícone do Logotipo */
+    .logo-icon {
+        width: 120px; /* Tamanho do círculo */
+        height: 120px;
+        margin: 0 auto 15px; /* Centraliza e dá espaço para o texto */
+        border: 2px solid #bbb; /* Borda leve para destacar do fundo branco, se necessário */
+        border-radius: 50%; /* Garante que é um círculo */
+        background-color: white; /* Garante fundo branco para o ícone */
+        padding: 5px; /* Espaço interno */
+    }
+
+    .laptop-circuit {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Nome da Empresa */
+    .logo-text {
+        color: #34495e; /* Cinza Escuro Principal */
+        font-size: 2rem;
+        font-weight: 800;
+        margin: 0 0 5px 0;
+        text-transform: uppercase;
+        letter-spacing: -0.5px;
+    }
+
+    .logo-text .highlight {
+        color: #2ecc71; /* Verde do Logotipo para 'GEST' */
+    }
+
+    /* Slogan */
+    .logo-slogan {
+        color: #7f8c8d; /* Cinza Médio */
+        font-size: 0.8rem;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 2px; /* Espaçamento maior entre letras */
+        position: relative;
+    }
+
+    /* Traços ao lado do Slogan */
+    .logo-slogan::before,
+    .logo-slogan::after {
+        content: "";
+        position: absolute;
+        width: 20px; /* Tamanho do traço */
+        height: 1px;
+        background-color: #7f8c8d;
+        top: 50%;
+    }
+
+    .logo-slogan::before {
+        left: -30px; /* Distância à esquerda */
+    }
+
+    .logo-slogan::after {
+        right: -30px; /* Distância à direita */
+    }
+</style>
