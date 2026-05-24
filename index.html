@@ -3,113 +3,277 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Software Gest</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Photo E</title>
+    <!DOCTYPE html>
+<html lang="pt">
+<head>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            background: #0a0f1c;
+        }
+
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 18px 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 1.15rem;
+        }
+
+        .nav-link:hover { color: #60a5fa; }
+
+        /* Hero */
+        .hero {
+            height: 100vh;
+            background-image: url('image.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content h1 { font-size: 3.8rem; margin-bottom: 10px; }
+
+        .gallery {
+            padding: 100px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h2 { text-align: center; font-size: 2.8rem; margin-bottom: 40px; color: #60a5fa; }
+
+        .wallpapers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .wallpaper-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            transition: transform 0.3s;
+        }
+
+        .wallpaper-card:hover { transform: scale(1.05); }
+
+        .wallpaper-card img {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+        }
+
+        .card-info {
+            padding: 15px;
+            background: #1e2937;
+            text-align: center;
+        }
+
+        .btn-download {
+            padding: 10px 25px;
+            background: #3b82f6;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+
+        /* Modal de Anúncio */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #1e2937;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        footer {
+            background: #020617;
+            padding: 60px 20px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <header class="site-header">
-        <h1 class="logo-text">SOFTWARE <span class="highlight">GEST</span></h1>
-        
-        <p class="logo-slogan">TECNOLOGIA • CONEXÃO • INOVAÇÃO </p>
+
+    <nav>
+        <div class="nav-container">
+            <a href="#home" class="nav-link"> Início</a>
+            <a href="#wallpapers" class="nav-link">Wallpapers</a>
+            <a href="#info" class="nav-link">Informações</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Wallpapers Elizandro</h1>
+            <p> imagens de alta qualidade para seu celular e computador</p>
+        </div>
+    </section>
+
+    <!-- Galeria Principal -->
+    <div class="gallery">
+        <h2>Galeria de Amostras</h2>
+        <div class="wallpapers-grid" id="main-gallery"></div>
     </div>
-</header>
 
+    <!-- Seção Completa -->
+    <section id="wallpapers" class="gallery">
+        <h2>Todos os Wallpapers</h2>
+        <div class="wallpapers-grid" id="full-gallery"></div>
+    </section>
 
+    <!-- Informações -->
+    <section id="info" class="gallery" style="background:#0f172a;">
+        <div style="max-width:800px; margin:0 auto;">
+            <h2>Informações</h2>
+            <p><strong>Elizandro Martins</strong> • Angola, Luanda</p>
+            <p>Tecnologias: HTML5, CSS3</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Eu Elizandro Ao • Todos os direitos reservados</p>
+    </footer>
+
+    <!-- Modal de Anúncio -->
+    <div id="adModal" class="modal">
+        <div class="modal-content">
+            <h2>📣 Anúncio</h2>
+            <p>Aqui ficará o seu anúncio.</p>
+            <p>Você pode colocar imagem, texto ou vídeo aqui.</p>
+            <br>
+            <button onclick="closeAdAndDownload()" style="padding:12px 30px; background:#22c55e; color:white; border:none; border-radius:50px; cursor:pointer;">
+                Fechar Anúncio e Baixar
+            </button>
+            
+        </div>
+    </div>
+
+   <script>
+    const wallpapers = [
+        {id:1, url: "https://picsum.photos/id/1015/3840/2160", title: "Montanhas ao Pôr do Sol"},
+        {id:2, url: "https://picsum.photos/id/133/3840/2160", title: "Floresta Encantada"},
+        {id:3, url: "https://picsum.photos/id/201/3840/2160", title: "Lago Sereno ao Entardecer"},
+        {id:4, url: "https://picsum.photos/id/251/3840/2160", title: "Aurora Boreal Mística"},
+        {id:5, url: "https://picsum.photos/id/367/3840/2160", title: "Praia Tropical Paradisíaca"},
+        {id:6, url: "https://picsum.photos/id/433/3840/2160", title: "Deserto Dourado"},
+        {id:7, url: "https://picsum.photos/id/1016/3840/2160", title: "Céu Estrelado Infinito"},
+        {id:8, url: "https://picsum.photos/id/870/3840/2160", title: "Cachoeira Majestosa"},
+        {id:9, url: "https://picsum.photos/id/1018/3840/2160", title: "Montanhas Nevadas"},
+        {id:10, url: "https://picsum.photos/id/1033/3840/2160", title: "Vale Verde Encantado"}
+    ];
+
+    const themes = ["Montanhas ao Amanhecer", "Oceano Tranquilo", "Floresta Outonal", "Céu Dramático", "Neve Branca Pura", "Pôr do Sol na Praia", "Rio Cristalino", "Penhasco Selvagem", "Luar na Montanha", "Vulcão Ativo"];
+
+    for (let i = 11; i <= 300; i++) {
+        const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+        wallpapers.push({ 
+            id: i, 
+            url: `https://picsum.photos/id/${100 + i}/3840/2160`, 
+            title: randomTheme 
+        });
+    }
+
+    const adLink = "https://www.effectivecpmnetwork.com/f5cr4xuxra?key=652cbef10f664fb6745725ce979b496c";
+
+    function downloadWallpaper(url, title) {
+        // Abre o anúncio primeiro
+        window.open(adLink, '_blank');
+
+        // Depois tenta baixar
+        setTimeout(() => {
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = title + ".jpg";
+            link.style.display = "none";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Fallback para celular (caso o download não funcione)
+            setTimeout(() => {
+                window.open(url, '_blank');
+            }, 1500);
+        }, 800);
+    }
+
+    function createGallery(containerId, limit = 12) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
         
-    </header>
-    <section class="apresentacao">
-    <h2 class="titulo-principal">Criação de sites de Gestão profissional!</h2>
-    
-    <p class="subtitulo">Precisa organizar melhor o seu negócio? Nós desenvolvemos o melhor para si, sites de gestão personalizados para ajudar a controlar e otimizar as suas operações:</p>
-    
-    <ul class="lista-funcionalidades">
-        <li>Gestão de clientes</li>
-        <li>Controle de vendas e estoque</li>
-        <li>Relatórios automáticos</li>
-        <li>Acesso fácil pelo computador ou telemóvel</li>
-        <li>Sistema adaptado à sua necessidade</li>
-    </ul>
+        container.innerHTML = '';
 
-    <p class="ideal-para"><strong>Ideal para:</strong> Pequenas e médias empresas, lojas e prestadores de serviços.</p>
-    
-    <p class="chamada-final">Transforme o seu negócio com tecnologia simples e eficiente.</p>
-</section>
+        const items = limit ? wallpapers.slice(0, limit) : wallpapers;
 
-
-
- <section class="employee-section">
-    <div class="employee-grid">
-        
-        <div class="employee-card">
-            <div class="employee-info">
-                <span class="SG-icon">SG</span>
-                <div class="name-container">
-                    <h2 class="employee-name">Elizandro Bernardo Martins</h2>
+        items.forEach(wp => {
+            const card = document.createElement('div');
+            card.className = 'wallpaper-card';
+            card.innerHTML = `
+                <img src="${wp.url}" 
+                     alt="${wp.title}" 
+                     style="width:100%; height:480px; object-fit:cover; display:block;">
+                <div class="card-info">
+                    <strong>${wp.title}</strong><br><br>
+                    <button onclick="downloadWallpaper('\( {wp.url}', ' \){wp.title}')" class="btn-download">
+                        Baixar
+                    </button>
                 </div>
-            </div>
-            <div class="contact-details">
-                <div class="contact-box">Nº de telefone: (+244) XXXXX-XXXX</div>
-                <div class="contact-box">Nº do WhatsApp: (+244) XXXXX-XXXX</div>
-            </div>
-        </div>
+            `;
+            container.appendChild(card);
+        });
+    }
 
-        <div class="employee-card">
-            <div class="employee-info">
-                <span class="SG-icon">SG</span>
-                <div class="name-container">
-                    <h2 class="employee-name">Ameriarley sataleco</h2>
-                </div>
-            </div>
-            <div class="contact-details">
-                <div class="contact-box">Nº de telefone: (+244) XXXXX-XXXX</div>
-                <div class="contact-box">Nº do WhatsApp: (+244) XXXXX-XXXX</div>
-            </div>
-        </div>
+    // Carregar galerias
+    createGallery('main-gallery', 12);
+    createGallery('full-gallery');
 
-    </div>
-</section>
-
-
-    <main id="worker-container">
-        </main>
-
-    <script src="script.js"></script>
-<footer class="footer-container">
-    <div class="footer-content">
-        
-        <div class="footer-column">
-            <h3>Quem somos</h3>
-            <ul>
-                <li><a href="#">Sobre a Software Gest</a></li>
-                <li><a href="#">Nossa Equipe</a></li>
-                <li><a href="#">Carreiras</a></li>
-                <li><a href="#">Contato</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-column">
-            <h3>Serviços</h3>
-            <ul>
-                <li><a href="#">Gestão de Trabalhadores</a></li>
-                <li><a href="#">Relatórios Online</a></li>
-                <li><a href="#">Suporte Técnico</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-column">
-            <h3>Legal</h3>
-            <ul>
-                <li><a href="#">Termos de Uso</a></li>
-                <li><a href="#">Política de Privacidade</a></li>
-                <li><a href="#">Definições de Cookie</a></li>
-            </ul>
-        </div>
-
-    </div>
-</footer>
-
-
-
-</body>
+    // Rolagem suave
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+</script>
+</doby>
 </html>
